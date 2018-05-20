@@ -1,0 +1,128 @@
+<script>
+  import wepy from 'wepy'
+  import 'wepy-async-function'
+
+  const config = {
+    pages: typeof global === 'undefined' || !global.router ? [] : global.router.pages,
+    subPackages: typeof global === 'undefined' || !global.router ? [{
+      root: '',
+      packages: []
+    }] : global.router.subPackages,
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#037EDD',
+      navigationBarTitleText: 'tencent',
+      navigationBarTextStyle: 'white'
+    }
+  }
+
+  export default class extends wepy.app {
+    config = config
+
+    globalData = {
+      cookieCode: '',
+      apiUrl: 'http://dev.api.nodebak.com',
+      userInfo: null,
+      appAgent: '3'
+    }
+
+    constructor() {
+      super()
+      this.use('requestfix')
+      this.use('promisify')
+    }
+
+    async onLaunch() {
+      await this.getCode()
+      await this.httpGet('/api/user')
+    }
+
+    async getCode() {
+      try {
+        this.globalData.cookieCode = await wepy.getStorageSync('cookieCode')
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    async httpGet(url, opt = {}, auth = true) {
+      const realUrl = this.handleUrl(url)
+      let res = {}
+      wepy.showLoading({
+        title: '正在登录',
+        mask: true
+      })
+      try {
+        res = await wepy.request({
+          url: realUrl,
+          data: opt,
+          header: {
+            'content-type': 'application/json',
+            'x-wx-code': `${this.globalData.cookieCode}`
+          },
+          method: 'GET'
+        })
+      } catch (error) {
+        res = { errno: 5000, errmsg: '网络错误', data: [] }
+        console.log(error)
+      }
+      wepy.hideLoading()
+      if (auth && res.data && res.data.errno === 4011) {
+        wepy.reLaunch({ url: 'pages/login' })
+      }
+      return res.data
+    }
+
+    async httpPost(url, opt = {}, auth = true) {
+      const realUrl = this.handleUrl(url)
+      let res = {}
+      wepy.showLoading({
+        title: '正在登录',
+        mask: true
+      })
+      try {
+        res = await wepy.request({
+          url: realUrl,
+          data: opt,
+          header: {
+            'content-type': 'application/json',
+            'x-wx-code': `${this.globalData.cookieCode}`
+          },
+          method: 'POST'
+        })
+      } catch (error) {
+        console.log(error)
+        res = { errno: 5000, errmsg: '网络错误', data: [] }
+      }
+      wepy.hideLoading()
+      if (auth && res.data && res.data.errno === 4011) {
+        wepy.reLaunch({ url: 'pages/login' })
+      }
+      return res.data
+    }
+
+    handleUrl(url) {
+      let realUrl = ''
+      if (url.indexOf('/api') === 0) {
+        realUrl = url.replace('/api', this.globalData.apiUrl)
+      } else if (url.indexOf('http') === 0) {
+        realUrl = url
+      } else {
+        realUrl = this.globalData.apiUrl + url
+      }
+      return realUrl
+    }
+
+    async setUserInfo(obj) {
+      this.globalData.userInfo = obj
+      await wepy.setStorage({ key: 'userInfo', data: obj })
+    }
+
+    getUserInfo() {
+      if (!this.globalData.userInfo) {
+        this.globalData.userInfo = wepy.getStorageSync('userInfo')
+      }
+      return this.globalData.userInfo
+    }
+  }
+</script>

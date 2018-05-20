@@ -1,0 +1,46 @@
+<template>
+  <view id="p-index">
+    <view class="g-header">
+      <view class="u-user-box">
+      </view>
+      <view class="g-header-box">
+      </view>
+    </view>
+    <scroll-view class="g-content" scroll-y>
+
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'wepybak'
+    }
+    components = {
+    }
+
+    data = {
+      user: {}
+    }
+
+    computed = {
+    }
+
+    methods = {}
+
+    events = {}
+
+    async onLoad() {
+    }
+  }
+</script>
+
+<style lang="scss">
+  @import '../assets/scss/base.scss';
+
+  #p-index {
+  }
+</style>

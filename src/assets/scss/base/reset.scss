@@ -1,0 +1,94 @@
+@import "config";
+
+html {
+  color: $c-f;
+  background: $c-bg-gray;
+  height: 100%;
+}
+
+body {
+  background: $c-bg-gray;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+view {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+div, a, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block;
+  box-sizing: border-box;
+}
+
+audio, canvas, video {
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+body, button, input, select, textarea {
+  letter-spacing: 0.3px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+fieldset, img {
+  border: 0;
+}
+
+blockquote {
+  margin: 1em 4em 1em 2em;
+  padding: 0.6em 1em;
+  background: $c-bg-grayish;
+}
+
+blockquote blockquote {
+  padding: 0 0 0 1em;
+  margin-left: 2em;
+  border-left: 0.4em solid $c-rim-gray;
+}
+
+abbr {
+  cursor: help;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+address, caption, cite, code, dfn, em, th, var {
+  font-style: normal;
+  font-weight: 400;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+caption, th {
+  text-align: left;
+}
+
+q:before, q:after {
+  content: '';
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: text-top;
+}

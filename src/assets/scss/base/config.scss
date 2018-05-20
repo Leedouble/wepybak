@@ -1,0 +1,82 @@
+@function rpx($value) {
+  @return $value*1rpx;
+}
+
+//宽度定义
+$w-body-max: rpx(750);
+$w-body-min: rpx(750);
+$h-body-min: rpx(600);
+
+$w-grid-space: rpx(24);
+$h-grid-space: rpx(20);
+
+//高度定义
+$h-s: rpx(24);
+$h-m: rpx(30);
+$h-m2: rpx(40);
+$h-l: rpx(48);
+$h-xl: rpx(60);
+
+// 宽度定义
+$w-nav: rpx(200);
+
+// 字体大小定义
+$f-xs: rpx(18);
+$f-s: rpx(24);
+$f-m: rpx(28);
+$f-l: rpx(32);
+$f-xl: rpx(36);
+
+//颜色定义
+$c-main: #037edd;
+$c-main-hover: lighten($c-main, 5%);
+$c-main-active: darken($c-main, 5%);
+$c-main-shadow: rgba($c-main, 0.7);
+$c-aid: #3eaca8;
+$c-aid-hover: lighten($c-aid, 5%);
+$c-aid-active: darken($c-aid, 5%);
+$c-aid-shadow: rgba($c-aid, 0.7);
+$c-fail: #999;
+$c-gray: #ccc;
+$c-gray-hover: lighten($c-gray, 5%);
+$c-gray-active: darken($c-gray, 5%);
+$c-gray-shadow: rgba($c-gray, 0.7);
+
+$c-info: #76ABEA;
+$c-error: #F2A4A8;
+$c-success: #97C19B;
+$c-warn: #FF800A;
+
+$c-f: #666;
+$c-f-gray: #999;
+$c-f-title: #333;
+$c-f-aid: #a39e9e;
+$c-f-white: #fff;
+$c-f-t-white: #fff;
+$c-f-dark: #222;
+
+$c-border-gray: #acacac;
+
+$c-bg-main: #242424;
+$c-bg-aid: #0c4458;
+$c-bg-white: #fff;
+$c-bg-black: #000;
+$c-bg-gray: #f7f7f7;
+$c-bg-grayish: #EFF2F7;
+$c-bg-page: #e9e9e9;
+
+$c-bd-gray: #ededed;
+
+$c-rim-main: lighten($c-main, 15%);
+$c-rim-aid: lighten($c-aid, 15%);
+$c-rim-gray: #d8d8d8;
+$c-rim-black: #666;
+
+$c-select-bg-hover: #89BFFF;
+
+$c-link: #0AB9F5;
+$c-bg-nav: #1b1b1b;
+
+//动画效果
+$bezier: cubic-bezier(.46, .01, .55, 1);
+

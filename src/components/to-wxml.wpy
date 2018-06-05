@@ -1,0 +1,150 @@
+<template>
+  <view class="towxml-block">
+    <import src="/plugins/wxParse/wxParse.wxml"/>
+
+    <block wx:for="{{parserTmpl.nodes}}" wx:key="{{index}}">
+      <template is="wxParse0" data="{{item}}"></template>
+    </block>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import WxParse from '../plugins/wxParse/wxParse'
+
+  export default class ToWxml extends wepy.component {
+    props = {
+      name: {
+        type: String,
+        default: 'toWxmlName'
+      },
+      content: {
+        type: String,
+        default: '<p class="no-content">没有任何内容</p>'
+      },
+      mode: {
+        type: String,
+        default: 'html'
+      },
+      imgPadding: {
+        type: Number,
+        default: 0
+      },
+      clearStyle: {
+        type: Boolean,
+        default: false
+      },
+      clearClass: {
+        type: Boolean,
+        default: false
+      }
+    }
+
+    data = {
+      parserTmpl: {}
+    }
+
+    events = {
+      'towxml-broadcase': ($event, ...args) => {
+      }
+    }
+
+    watch = {
+      content() {
+        this.toParse()
+      }
+    }
+
+    methods = {
+      toParserNotice() {
+        this.toParse()
+      }
+    }
+
+    onLoad() {
+      if (this.content) {
+        this.toParse()
+      }
+    }
+
+    // 解析后的image文件load事件
+    wxParseImgLoad(image) {
+      this.$emit('towxml-image_loaded', image)
+    };
+
+    /**
+     * WxParse.wxParse({bindName , type, data, target,imagePadding, clearStyle, clearClass})
+     * 1.bindName绑定的数据名(必填)
+     * 2.type可以为html或者md(必填)
+     * 3.data为传入的具体数据(必填)
+     * 4.target为Page对象,一般为this(必填)
+     * 5.imagePadding为当图片自适应是左右的单一padding(默认为0,可选)
+     * 6.clearStyle清除行内样式(默认为false,可选)
+     * 7.clearClass清除class(默认为false,可选)
+     */
+    toParse() {
+      try {
+        const name = this.name || this.props.name.default
+        const htmlContent = WxParse.wxParse({
+          bindName: name,
+          type: this.mode || this.props.mode.default,
+          data: this.content || this.props.content.default,
+          target: this,
+          imagePadding: this.imgPadding || this.props.imgPadding.default,
+          clearStyle: this.clearStyle,
+          clearClass: this.clearClass
+        })
+        this.parserTmpl = htmlContent[name]
+        this.$apply()
+      } catch (e) {
+        console.warn('toWxmlParser:', '没有任何内容需要转换', e)
+      }
+    }
+  }
+</script>
+
+<style lang="scss" src="../plugins/wxParse/wxParse.wxss"></style>
+<style lang="scss">
+  @import '../assets/scss/base.scss';
+
+  $base-font-size: rpx(32);
+  $base-line-height: 1.6;
+  $base-color: #333;
+
+  .no-content {
+    display: block;
+    width: 100%;
+    font-size: $base-font-size;
+    padding: rpx(30) 0;
+    text-align: center;
+  }
+
+  .wxParse {
+    &,
+    &-h1,
+    &-h2,
+    &-h3,
+    &-h4,
+    &-h5,
+    &-h6,
+    &-div,
+    &-ol,
+    &-ul,
+    &-li,
+    &-p,
+    &-span,
+    &-strong,
+    &-em {
+      font-size: $base-font-size;
+      line-height: $base-line-height;
+      color: $base-color;
+    }
+
+    // 图片默认100%宽度， 高度由<image mode="widthFix"></image>设置
+    &-img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+</style>

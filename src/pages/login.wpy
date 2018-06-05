@@ -124,6 +124,7 @@
     }
 
     async login() {
+      await this.initCode()
       const res = await this.$parent.httpPost('/api/user/login/appletphone', {
         ...this.loginObj,
         appAgent: this.$parent.globalData.appAgent,
@@ -134,7 +135,6 @@
         wepy.redirectTo({ url: '/pages/index' })
       } else {
         this.toast('warning', '登录异常')
-        await this.initCode()
       }
     }
 
